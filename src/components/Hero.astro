@@ -7,13 +7,8 @@ const words = ["LA", "ESTÉTICA", "DEL", "FUTURO", "ES", "AHORA"];
   class="relative min-h-screen px-[var(--spacing-margin)] pt-28 pb-12 md:pt-32 md:pb-16 flex flex-col justify-between border-b border-[var(--color-outline-variant)] overflow-hidden"
 >
   <!-- Top meta row -->
-  <div class="grid grid-cols-2 md:grid-cols-12 gap-4 text-mono-label text-[var(--color-outline)]">
-    <div class="md:col-span-3">— LAT 34°36'S</div>
-    <div class="md:col-span-3 hidden md:block">PRODUCTORA · ESTUDIO · ROSTER</div>
-    <div class="md:col-span-3 hidden md:block">EST. 2024</div>
-    <div class="md:col-span-3 text-right acid">
-      <span id="clock">--:--:-- BUE</span>
-    </div>
+  <div class="flex justify-end text-mono-label">
+    <span id="clock" class="acid">--:--:-- BUE</span>
   </div>
 
   <!-- Headline -->
@@ -74,27 +69,17 @@ const words = ["LA", "ESTÉTICA", "DEL", "FUTURO", "ES", "AHORA"];
     transition:
       transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
       opacity 0.6s ease-out;
-    transition-delay: calc(var(--i, 0) * 70ms + 200ms);
+    transition-delay: calc(var(--i, 0) * 70ms + 150ms);
     will-change: transform;
     margin-right: 0.18em;
   }
   .hero-word:last-child {
     margin-right: 0;
   }
-  /* Reveal class controlled by JS */
+  /* Reveal — controlado por JS (con timeout de seguridad) */
   :global(.hero-show) .hero-word {
     transform: translateY(0);
     opacity: 1;
-  }
-  /* Fallback: if JS never fires, show text after 4s */
-  @keyframes heroFallback {
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  .hero-word {
-    animation: heroFallback 0.001s linear 4s forwards;
   }
 </style>
 
@@ -109,13 +94,18 @@ const words = ["LA", "ESTÉTICA", "DEL", "FUTURO", "ES", "AHORA"];
   setInterval(tickClock, 1000);
   tickClock();
 
+  let revealed = false;
   function showHero() {
+    if (revealed) return;
+    revealed = true;
     document.documentElement.classList.add("hero-show");
   }
-  // Show on loader:done, or immediately if loader is already gone
+
   if (document.getElementById("loader")) {
     document.addEventListener("loader:done", showHero, { once: true });
   } else {
     requestAnimationFrame(showHero);
   }
+  // Safety net: si por algún motivo el loader no dispara, revelar a los 6s
+  setTimeout(showHero, 6000);
 </script>
