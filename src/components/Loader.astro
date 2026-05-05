@@ -1,0 +1,115 @@
+---
+// Full-screen loader: counts 0000 → 8888, acid bar grows, then sweeps away.
+---
+
+<div
+  id="loader"
+  class="fixed inset-0 z-[10000] bg-[var(--color-deep-black)] flex flex-col items-center justify-center overflow-hidden"
+  aria-hidden="false"
+>
+  <!-- Top-left mono label -->
+  <div class="absolute top-6 left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
+    Booting / 8888.SYS
+  </div>
+  <!-- Top-right version -->
+  <div class="absolute top-6 right-[var(--spacing-margin)] text-mono-label acid">
+    V2.0_08
+  </div>
+
+  <!-- Counter -->
+  <div
+    id="loader-counter"
+    class="font-editorial acid leading-[0.85] tracking-tighter text-center"
+    style="font-size: clamp(120px, 28vw, 360px); font-variant-numeric: tabular-nums;"
+  >
+    0000
+  </div>
+
+  <!-- Status -->
+  <div class="mt-8 text-mono-label text-[var(--color-on-surface-variant)] flex gap-3 items-center">
+    <span class="w-2 h-2 bg-acid animate-pulse"></span>
+    <span id="loader-status">Cargando sistema audiovisual</span>
+  </div>
+
+  <!-- Acid progress bar -->
+  <div class="absolute bottom-0 left-0 right-0 h-[6px] bg-[var(--color-surface-container)]">
+    <div id="loader-bar" class="h-full bg-acid origin-left" style="transform: scaleX(0)"></div>
+  </div>
+
+  <!-- Bottom mono label -->
+  <div class="absolute bottom-8 left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
+    8888 Producciones — Multimodal Brutalism
+  </div>
+  <div class="absolute bottom-8 right-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
+    <span id="loader-pct">0</span>%
+  </div>
+</div>
+
+<script>
+  const KEY = "8888-loader-seen";
+  const loader = document.getElementById("loader") as HTMLElement | null;
+  if (!loader) {
+    // nothing to do
+  } else if (sessionStorage.getItem(KEY)) {
+    // Already seen this session — remove instantly.
+    loader.remove();
+    document.dispatchEvent(new CustomEvent("loader:done"));
+  } else {
+    document.documentElement.style.overflow = "hidden";
+    const counter = document.getElementById("loader-counter")!;
+    const bar = document.getElementById("loader-bar")!;
+    const pct = document.getElementById("loader-pct")!;
+    const status = document.getElementById("loader-status")!;
+
+    const TARGET = 8888;
+    const DURATION = 2200; // ms
+    const start = performance.now();
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const statuses = [
+      "Cargando sistema audiovisual",
+      "Sintonizando frecuencias",
+      "Inicializando estudio",
+      "Listo para grabar",
+    ];
+
+    function tick(now: number) {
+      const elapsed = now - start;
+      const t = Math.min(elapsed / DURATION, 1);
+      const eased = easeOut(t);
+      const value = Math.round(eased * TARGET);
+      counter.textContent = String(value).padStart(4, "0");
+      bar.style.transform = `scaleX(${eased})`;
+      pct.textContent = String(Math.round(eased * 100));
+      const stepIdx = Math.min(statuses.length - 1, Math.floor(eased * statuses.length));
+      status.textContent = statuses[stepIdx];
+
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        finish();
+      }
+    }
+
+    function finish() {
+      sessionStorage.setItem(KEY, "1");
+      // Flash acid then sweep away
+      loader!.style.transition = "transform 0.9s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.6s";
+      requestAnimationFrame(() => {
+        // brief acid flash
+        loader!.style.background = "var(--color-acid)";
+        counter.style.color = "#000";
+        setTimeout(() => {
+          loader!.style.transform = "translateY(-100%)";
+          setTimeout(() => {
+            loader!.remove();
+            document.documentElement.style.overflow = "";
+            document.dispatchEvent(new CustomEvent("loader:done"));
+          }, 950);
+        }, 220);
+      });
+    }
+
+    requestAnimationFrame(tick);
+  }
+</script>

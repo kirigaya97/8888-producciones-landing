@@ -1,0 +1,35 @@
+---
+interface Props {
+  items?: string[];
+  variant?: "acid" | "outline";
+}
+const {
+  items = [
+    "MULTIMODAL BRUTALISM",
+    "FUTURE-POP",
+    "8888 PRODUCCIONES",
+    "AUDIOVISUAL · MUSIC · DESIGN",
+    "EST. 2024",
+  ],
+  variant = "acid",
+} = Astro.props;
+const repeated = [...items, ...items, ...items, ...items];
+---
+
+<div
+  class:list={[
+    "w-full overflow-hidden border-y py-6",
+    variant === "acid"
+      ? "bg-acid text-black border-black"
+      : "border-[var(--color-outline-variant)]",
+  ]}
+>
+  <div class="marquee-track">
+    {repeated.map((item) => (
+      <span class="px-8 font-editorial text-[clamp(40px,7vw,96px)] leading-none whitespace-nowrap uppercase tracking-tight flex items-center gap-8">
+        {item}
+        <span class="text-2xl">✱</span>
+      </span>
+    ))}
+  </div>
+</div>

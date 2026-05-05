@@ -1,0 +1,37 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-black px-[var(--spacing-margin)] pt-20 pb-8 border-t-4 border-acid">
+  <div class="grid grid-cols-2 md:grid-cols-12 gap-gutter mb-16">
+    <div class="col-span-2 md:col-span-6">
+      <div class="font-editorial text-[clamp(120px,22vw,360px)] leading-[0.85] acid">
+        8888
+      </div>
+    </div>
+    <div class="md:col-span-3">
+      <div class="text-mono-label text-[var(--color-outline)] mb-3">NAVEGACIÓN</div>
+      <ul class="space-y-1.5 font-display">
+        <li><a href="#manifiesto" class="hover:acid" data-cursor-hover>Manifiesto</a></li>
+        <li><a href="#servicios" class="hover:acid" data-cursor-hover>Servicios</a></li>
+        <li><a href="#roster" class="hover:acid" data-cursor-hover>Roster</a></li>
+        <li><a href="#reel" class="hover:acid" data-cursor-hover>Reel</a></li>
+        <li><a href="#estudio" class="hover:acid" data-cursor-hover>Estudio</a></li>
+      </ul>
+    </div>
+    <div class="md:col-span-3">
+      <div class="text-mono-label text-[var(--color-outline)] mb-3">LEGAL</div>
+      <ul class="space-y-1.5 font-display">
+        <li><a href="#" class="hover:acid" data-cursor-hover>Privacy</a></li>
+        <li><a href="#" class="hover:acid" data-cursor-hover>Terms</a></li>
+        <li><a href="#" class="hover:acid" data-cursor-hover>Press kit</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center pt-8 border-t border-[var(--color-outline-variant)] text-mono-label text-[var(--color-outline)]">
+    <span>© {year} 8888 Producciones. Multimodal Brutalism at scale.</span>
+    <span class="acid">V2.0_08</span>
+    <span>Built in Buenos Aires, AR.</span>
+  </div>
+</footer>

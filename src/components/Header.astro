@@ -1,0 +1,42 @@
+---
+const links = [
+  { href: "#manifiesto", label: "Manifiesto" },
+  { href: "#servicios", label: "Servicios" },
+  { href: "#roster", label: "Roster" },
+  { href: "#reel", label: "Reel" },
+  { href: "#estudio", label: "Estudio" },
+  { href: "#contacto", label: "Contacto" },
+];
+---
+
+<header
+  class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--color-outline-variant)] bg-[var(--color-bg)]/70 backdrop-blur-md"
+>
+  <div class="flex justify-between items-center px-[var(--spacing-margin)] py-4">
+    <a href="#top" class="font-display font-bold text-2xl tracking-tighter text-on-surface" data-cursor-hover>
+      8888 <span class="acid">/</span> Producciones
+    </a>
+    <nav class="hidden md:flex gap-6 text-mono-label text-[var(--color-on-surface-variant)]">
+      {links.map((l) => (
+        <a href={l.href} class="hover:text-[color:var(--color-acid)] transition-colors" data-cursor-hover>
+          {l.label}
+        </a>
+      ))}
+    </nav>
+    <a
+      href="#contacto"
+      class="hidden md:inline-block text-mono-label bg-acid text-black px-4 py-2 font-bold hover:bg-[var(--color-acid-dim)] transition-colors"
+      data-cursor-hover
+    >
+      Trabajemos →
+    </a>
+    <button
+      id="menu-btn"
+      class="md:hidden text-mono-label acid"
+      aria-label="Menu"
+      data-cursor-hover
+    >
+      MENU
+    </button>
+  </div>
+</header>

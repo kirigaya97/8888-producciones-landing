@@ -1,0 +1,79 @@
+---
+const heroLine1 = ["LA", "ESTÉTICA"];
+const heroLine2 = ["DEL", "FUTURO"];
+const heroLine3 = ["ES", "AHORA."];
+---
+
+<section
+  id="top"
+  class="relative min-h-screen px-[var(--spacing-margin)] pt-32 pb-16 flex flex-col justify-between border-b border-[var(--color-outline-variant)] overflow-hidden"
+>
+  <!-- Top meta row -->
+  <div class="grid grid-cols-2 md:grid-cols-12 gap-4 text-mono-label text-[var(--color-outline)]">
+    <div class="md:col-span-3">— LAT 34°36'S / LON 58°22'W</div>
+    <div class="md:col-span-3 hidden md:block">PRODUCTORA · ESTUDIO · ROSTER</div>
+    <div class="md:col-span-3 hidden md:block">EST. 2024</div>
+    <div class="md:col-span-3 text-right acid">
+      <span id="clock">--:--:--</span>
+    </div>
+  </div>
+
+  <!-- Headline -->
+  <div data-stagger class="my-12 md:my-0">
+    <h1 class="text-headline-lg uppercase">
+      <span class="split-line"><span class="split-word acid" data-stagger-item>{heroLine1[0]}</span> <span class="split-word" data-stagger-item>{heroLine1[1]}</span></span>
+      <span class="split-line"><span class="split-word" data-stagger-item>{heroLine2[0]}</span> <span class="split-word acid" data-stagger-item>{heroLine2[1]}</span></span>
+      <span class="split-line"><span class="split-word" data-stagger-item>{heroLine3[0]}</span> <span class="split-word italic font-editorial" data-stagger-item>{heroLine3[1]}</span></span>
+    </h1>
+  </div>
+
+  <!-- Bottom row -->
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-end" data-reveal>
+    <div class="md:col-span-5">
+      <p class="text-editorial-serif text-[var(--color-on-surface-variant)] max-w-md">
+        Productora audiovisual, estudio de grabación y casa de artistas operando bajo
+        un prisma de <span class="acid italic">brutalismo digital</span> y eficiencia técnica.
+      </p>
+    </div>
+    <div class="md:col-span-3 md:col-start-7 text-mono-label text-[var(--color-outline)]">
+      <div class="border-t border-[var(--color-outline-variant)] pt-3">SCROLL</div>
+      <div class="mt-2 text-3xl acid font-display">↓</div>
+    </div>
+    <div class="md:col-span-3 text-right">
+      <div class="text-mono-label text-[var(--color-outline)]">CLIENTES ACTIVOS</div>
+      <div class="font-editorial acid text-6xl mt-1">24</div>
+    </div>
+  </div>
+
+  <!-- Background number -->
+  <div
+    class="pointer-events-none absolute -bottom-16 -right-8 font-editorial text-[28vw] leading-none acid opacity-[0.04] select-none"
+    aria-hidden="true"
+  >
+    8888
+  </div>
+</section>
+
+<script>
+  function tickClock() {
+    const el = document.getElementById("clock");
+    if (!el) return;
+    const d = new Date();
+    const fmt = (n: number) => String(n).padStart(2, "0");
+    el.textContent = `${fmt(d.getHours())}:${fmt(d.getMinutes())}:${fmt(d.getSeconds())} BUE`;
+  }
+  setInterval(tickClock, 1000);
+  tickClock();
+
+  // Trigger hero stagger after loader done
+  function showHero() {
+    document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((c) => {
+      c.querySelectorAll<HTMLElement>("[data-stagger-item]").forEach((i) => i.classList.add("is-visible"));
+    });
+  }
+  document.addEventListener("loader:done", showHero);
+  // Fallback if no loader
+  setTimeout(() => {
+    if (!document.getElementById("loader")) showHero();
+  }, 100);
+</script>

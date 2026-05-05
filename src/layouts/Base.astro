@@ -1,0 +1,125 @@
+---
+import "../styles/global.css";
+import Loader from "../components/Loader.astro";
+import GrainOverlay from "../components/GrainOverlay.astro";
+import Cursor from "../components/Cursor.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "8888 Producciones — Multimodal Brutalism at Scale",
+  description = "Productora audiovisual, estudio de grabación y management de artistas. Future-Pop / Brutalismo digital.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0e0e0e" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="bg-[var(--color-bg)] text-[var(--color-on-surface)]">
+    <Loader />
+    <GrainOverlay />
+    <Cursor />
+    <slot />
+
+    <script>
+      import Lenis from "lenis";
+      import { animate, inView } from "motion";
+
+      // Smooth scroll
+      const lenis = new Lenis({
+        duration: 1.1,
+        smoothWheel: true,
+      });
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      // Reveal-on-scroll for [data-reveal] elements
+      const revealEls = document.querySelectorAll<HTMLElement>("[data-reveal]");
+      revealEls.forEach((el) => {
+        inView(
+          el,
+          () => {
+            el.classList.add("is-visible");
+          },
+          { amount: 0.2 }
+        );
+      });
+
+      // Stagger reveal for [data-stagger] containers
+      const staggerContainers = document.querySelectorAll<HTMLElement>("[data-stagger]");
+      staggerContainers.forEach((container) => {
+        const items = container.querySelectorAll<HTMLElement>("[data-stagger-item]");
+        items.forEach((item, i) => {
+          (item.style as any).transitionDelay = `${i * 80}ms`;
+        });
+        inView(
+          container,
+          () => {
+            items.forEach((item) => item.classList.add("is-visible"));
+          },
+          { amount: 0.15 }
+        );
+      });
+
+      // Scroll progress bar
+      const progress = document.getElementById("scroll-progress");
+      if (progress) {
+        lenis.on("scroll", ({ scroll, limit }: { scroll: number; limit: number }) => {
+          const pct = limit > 0 ? (scroll / limit) * 100 : 0;
+          progress.style.transform = `scaleX(${pct / 100})`;
+        });
+      }
+
+      // Custom cursor
+      const cursor = document.getElementById("cursor-dot");
+      if (cursor && window.matchMedia("(hover: hover)").matches) {
+        let x = 0, y = 0, tx = 0, ty = 0;
+        window.addEventListener("mousemove", (e) => {
+          tx = e.clientX;
+          ty = e.clientY;
+        });
+        function loop() {
+          x += (tx - x) * 0.18;
+          y += (ty - y) * 0.18;
+          cursor!.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+          requestAnimationFrame(loop);
+        }
+        loop();
+        document.querySelectorAll("a, button, [data-cursor-hover]").forEach((el) => {
+          el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
+          el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
+        });
+      }
+    </script>
+
+    <div
+      id="scroll-progress"
+      class="fixed top-0 left-0 right-0 h-[2px] bg-acid z-[9998] origin-left"
+      style="transform: scaleX(0)"
+    >
+    </div>
+  </body>
+</html>

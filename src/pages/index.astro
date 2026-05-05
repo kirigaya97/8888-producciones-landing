@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Marquee from "../components/Marquee.astro";
+import Manifesto from "../components/Manifesto.astro";
+import Servicios from "../components/Servicios.astro";
+import Roster from "../components/Roster.astro";
+import Reel from "../components/Reel.astro";
+import Estudio from "../components/Estudio.astro";
+import Contacto from "../components/Contacto.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base>
+  <Header />
+  <main>
+    <Hero />
+    <Marquee />
+    <Manifesto />
+    <Servicios />
+    <Roster />
+    <Marquee variant="outline" items={["WORK · MUSIC · DESIGN", "RESERVÁ TU SESIÓN", "8888", "PRODUCTORA AUDIOVISUAL"]} />
+    <Reel />
+    <Estudio />
+    <Contacto />
+  </main>
+  <Footer />
+</Base>

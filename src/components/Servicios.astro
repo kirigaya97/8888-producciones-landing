@@ -1,0 +1,68 @@
+---
+const servicios = [
+  {
+    n: "01",
+    title: "Producción Audiovisual",
+    desc: "Videoclips, comerciales, branded content y dirección creativa. Pre-producción, rodaje y post integral.",
+    tags: ["Videoclips", "Branded", "Dirección", "Post-producción"],
+  },
+  {
+    n: "02",
+    title: "Estudio de Grabación",
+    desc: "Tracking, mezcla y mastering en un studio con monitoreo Genelec. Vocales, banda completa, foley.",
+    tags: ["Tracking", "Mixing", "Mastering", "Foley"],
+  },
+  {
+    n: "03",
+    title: "Roster de Artistas",
+    desc: "Management 360 de artistas emergentes y consagrados. Estrategia, lanzamientos y giras.",
+    tags: ["Management", "A&R", "Live", "Releases"],
+  },
+  {
+    n: "04",
+    title: "Eventos & Live",
+    desc: "Producción de eventos, showcases y experiencias en vivo. Diseño escénico y operación técnica.",
+    tags: ["Showcases", "Lighting", "Stage", "Tech"],
+  },
+];
+---
+
+<section
+  id="servicios"
+  class="px-[var(--spacing-margin)] py-32 border-b border-[var(--color-outline-variant)]"
+>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16">
+    <div class="md:col-span-3 text-mono-label text-[var(--color-outline)]">01 / Servicios</div>
+    <div class="md:col-span-9" data-reveal>
+      <h2 class="text-headline-md uppercase">
+        Cuatro vectores. <span class="acid">Una visión.</span>
+      </h2>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-[var(--color-outline-variant)] border border-[var(--color-outline-variant)]" data-stagger>
+    {servicios.map((s) => (
+      <article
+        class="bg-[var(--color-bg)] p-10 md:p-12 group hover:bg-acid hover:text-black transition-colors duration-300 cursor-pointer"
+        data-stagger-item
+        data-cursor-hover
+      >
+        <div class="flex items-start justify-between mb-12">
+          <span class="text-mono-label text-[var(--color-outline)] group-hover:text-black/60">{s.n}</span>
+          <span class="material-symbols-outlined acid group-hover:text-black transition-transform group-hover:translate-x-2 group-hover:-translate-y-2">north_east</span>
+        </div>
+        <h3 class="text-headline-md uppercase mb-6">{s.title}</h3>
+        <p class="text-body-reg text-[var(--color-on-surface-variant)] group-hover:text-black/80 max-w-md mb-8">
+          {s.desc}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {s.tags.map((t) => (
+            <span class="text-mono-label border border-[var(--color-outline-variant)] group-hover:border-black px-3 py-1">
+              {t}
+            </span>
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

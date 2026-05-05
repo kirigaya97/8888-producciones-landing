@@ -1,0 +1,65 @@
+---
+const works = [
+  { title: "Próximamente", artist: "Cyber Nova", type: "Music Video", year: "24", img: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&q=80" },
+  { title: "Frecuencia 808", artist: "Kira 808", type: "Documentary", year: "24", img: "https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=1200&q=80" },
+  { title: "Marea / Sur", artist: "Marea Sur", type: "Live Session", year: "23", img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1200&q=80" },
+  { title: "Sistema Nervioso", artist: "Null/Void", type: "Brand Film", year: "24", img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80" },
+];
+---
+
+<section
+  id="reel"
+  class="px-[var(--spacing-margin)] py-32 border-b border-[var(--color-outline-variant)]"
+>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16">
+    <div class="md:col-span-3 text-mono-label text-[var(--color-outline)]">03 / Reel</div>
+    <div class="md:col-span-6" data-reveal>
+      <h2 class="text-headline-md uppercase">
+        Trabajos <span class="acid">recientes.</span>
+      </h2>
+    </div>
+    <div class="md:col-span-3 text-right" data-reveal>
+      <a href="#" class="text-mono-label acid border-b border-acid pb-1" data-cursor-hover>
+        VER REEL COMPLETO →
+      </a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+    {works.map((w, i) => (
+      <a
+        href="#"
+        class:list={[
+          "group block relative aspect-video overflow-hidden bg-black border border-[var(--color-outline-variant)]",
+          i % 3 === 0 ? "md:col-span-2 md:aspect-[21/9]" : "",
+        ]}
+        data-reveal
+        data-cursor-hover
+      >
+        <img
+          src={w.img}
+          alt={w.title}
+          loading="lazy"
+          class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+
+        <!-- Play badge -->
+        <div class="absolute top-6 right-6 w-16 h-16 rounded-full border-2 border-acid flex items-center justify-center group-hover:bg-acid transition-colors">
+          <span class="material-symbols-outlined acid group-hover:text-black" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+        </div>
+
+        <!-- Meta -->
+        <div class="absolute bottom-0 left-0 right-0 p-8">
+          <div class="flex items-center gap-3 text-mono-label text-acid mb-3">
+            <span>{w.type}</span>
+            <span class="w-8 h-px bg-acid"></span>
+            <span>'{w.year}</span>
+          </div>
+          <h3 class="font-editorial text-4xl md:text-6xl leading-none mb-2 uppercase">{w.title}</h3>
+          <div class="text-mono-label text-[var(--color-on-surface-variant)]">FT. {w.artist}</div>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
