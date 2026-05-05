@@ -25,8 +25,8 @@
   --font-body: "Inter", sans-serif;
 
   /* Spacing tokens */
-  --spacing-margin: 40px;
-  --spacing-gutter: 24px;
+  --spacing-margin: 24px;
+  --spacing-gutter: 16px;
 
   /* Radius — brutalist, all sharp */
   --radius-sm: 0;
@@ -45,6 +45,14 @@
 
   body {
     overflow-x: hidden;
+  }
+
+  /* Wider gutters / margins on larger screens */
+  @media (min-width: 768px) {
+    :root {
+      --spacing-margin: 40px;
+      --spacing-gutter: 24px;
+    }
   }
 
   ::selection {

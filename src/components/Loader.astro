@@ -8,11 +8,11 @@
   aria-hidden="false"
 >
   <!-- Top-left mono label -->
-  <div class="absolute top-6 left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
+  <div class="absolute top-6 left-6 md:left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
     Booting / 8888.SYS
   </div>
   <!-- Top-right version -->
-  <div class="absolute top-6 right-[var(--spacing-margin)] text-mono-label acid">
+  <div class="absolute top-6 right-6 md:right-[var(--spacing-margin)] text-mono-label acid">
     V2.0_08
   </div>
 
@@ -37,10 +37,10 @@
   </div>
 
   <!-- Bottom mono label -->
-  <div class="absolute bottom-8 left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
+  <div class="absolute bottom-8 left-6 md:left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)] hidden sm:block">
     8888 Producciones — Multimodal Brutalism
   </div>
-  <div class="absolute bottom-8 right-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
+  <div class="absolute bottom-8 right-6 md:right-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
     <span id="loader-pct">0</span>%
   </div>
 </div>
@@ -62,7 +62,7 @@
     const status = document.getElementById("loader-status")!;
 
     const TARGET = 8888;
-    const DURATION = 2200; // ms
+    const DURATION = 3800; // ms — un poco más largo para apreciar el reveal
     const start = performance.now();
     const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 

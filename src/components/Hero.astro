@@ -1,29 +1,36 @@
 ---
-const heroLine1 = ["LA", "ESTÉTICA"];
-const heroLine2 = ["DEL", "FUTURO"];
-const heroLine3 = ["ES", "AHORA."];
+const words = ["LA", "ESTÉTICA", "DEL", "FUTURO", "ES", "AHORA"];
 ---
 
 <section
   id="top"
-  class="relative min-h-screen px-[var(--spacing-margin)] pt-32 pb-16 flex flex-col justify-between border-b border-[var(--color-outline-variant)] overflow-hidden"
+  class="relative min-h-screen px-[var(--spacing-margin)] pt-28 pb-12 md:pt-32 md:pb-16 flex flex-col justify-between border-b border-[var(--color-outline-variant)] overflow-hidden"
 >
   <!-- Top meta row -->
   <div class="grid grid-cols-2 md:grid-cols-12 gap-4 text-mono-label text-[var(--color-outline)]">
-    <div class="md:col-span-3">— LAT 34°36'S / LON 58°22'W</div>
+    <div class="md:col-span-3">— LAT 34°36'S</div>
     <div class="md:col-span-3 hidden md:block">PRODUCTORA · ESTUDIO · ROSTER</div>
     <div class="md:col-span-3 hidden md:block">EST. 2024</div>
     <div class="md:col-span-3 text-right acid">
-      <span id="clock">--:--:--</span>
+      <span id="clock">--:--:-- BUE</span>
     </div>
   </div>
 
   <!-- Headline -->
-  <div data-stagger class="my-12 md:my-0">
+  <div class="my-12 md:my-0">
     <h1 class="text-headline-lg uppercase">
-      <span class="split-line"><span class="split-word acid" data-stagger-item>{heroLine1[0]}</span> <span class="split-word" data-stagger-item>{heroLine1[1]}</span></span>
-      <span class="split-line"><span class="split-word" data-stagger-item>{heroLine2[0]}</span> <span class="split-word acid" data-stagger-item>{heroLine2[1]}</span></span>
-      <span class="split-line"><span class="split-word" data-stagger-item>{heroLine3[0]}</span> <span class="split-word italic font-editorial" data-stagger-item>{heroLine3[1]}</span></span>
+      <span class="hero-line">
+        <span class="hero-word acid" style="--i: 0">LA</span>
+        <span class="hero-word" style="--i: 1">ESTÉTICA</span>
+      </span>
+      <span class="hero-line">
+        <span class="hero-word" style="--i: 2">DEL</span>
+        <span class="hero-word acid" style="--i: 3">FUTURO</span>
+      </span>
+      <span class="hero-line">
+        <span class="hero-word" style="--i: 4">ES</span>
+        <span class="hero-word italic font-editorial" style="--i: 5">AHORA.</span>
+      </span>
     </h1>
   </div>
 
@@ -35,13 +42,13 @@ const heroLine3 = ["ES", "AHORA."];
         un prisma de <span class="acid italic">brutalismo digital</span> y eficiencia técnica.
       </p>
     </div>
-    <div class="md:col-span-3 md:col-start-7 text-mono-label text-[var(--color-outline)]">
+    <div class="hidden md:block md:col-span-3 md:col-start-7 text-mono-label text-[var(--color-outline)]">
       <div class="border-t border-[var(--color-outline-variant)] pt-3">SCROLL</div>
       <div class="mt-2 text-3xl acid font-display">↓</div>
     </div>
-    <div class="md:col-span-3 text-right">
+    <div class="md:col-span-3 flex md:block justify-between items-end md:text-right">
       <div class="text-mono-label text-[var(--color-outline)]">CLIENTES ACTIVOS</div>
-      <div class="font-editorial acid text-6xl mt-1">24</div>
+      <div class="font-editorial acid text-5xl md:text-6xl md:mt-1 leading-none">24</div>
     </div>
   </div>
 
@@ -54,6 +61,43 @@ const heroLine3 = ["ES", "AHORA."];
   </div>
 </section>
 
+<style>
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.04em;
+  }
+  .hero-word {
+    display: inline-block;
+    transform: translateY(110%);
+    opacity: 0;
+    transition:
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.6s ease-out;
+    transition-delay: calc(var(--i, 0) * 70ms + 200ms);
+    will-change: transform;
+    margin-right: 0.18em;
+  }
+  .hero-word:last-child {
+    margin-right: 0;
+  }
+  /* Reveal class controlled by JS */
+  :global(.hero-show) .hero-word {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  /* Fallback: if JS never fires, show text after 4s */
+  @keyframes heroFallback {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  .hero-word {
+    animation: heroFallback 0.001s linear 4s forwards;
+  }
+</style>
+
 <script>
   function tickClock() {
     const el = document.getElementById("clock");
@@ -65,15 +109,13 @@ const heroLine3 = ["ES", "AHORA."];
   setInterval(tickClock, 1000);
   tickClock();
 
-  // Trigger hero stagger after loader done
   function showHero() {
-    document.querySelectorAll<HTMLElement>("[data-stagger]").forEach((c) => {
-      c.querySelectorAll<HTMLElement>("[data-stagger-item]").forEach((i) => i.classList.add("is-visible"));
-    });
+    document.documentElement.classList.add("hero-show");
   }
-  document.addEventListener("loader:done", showHero);
-  // Fallback if no loader
-  setTimeout(() => {
-    if (!document.getElementById("loader")) showHero();
-  }, 100);
+  // Show on loader:done, or immediately if loader is already gone
+  if (document.getElementById("loader")) {
+    document.addEventListener("loader:done", showHero, { once: true });
+  } else {
+    requestAnimationFrame(showHero);
+  }
 </script>

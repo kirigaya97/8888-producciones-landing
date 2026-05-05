@@ -12,9 +12,13 @@ const links = [
 <header
   class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--color-outline-variant)] bg-[var(--color-bg)]/70 backdrop-blur-md"
 >
-  <div class="flex justify-between items-center px-[var(--spacing-margin)] py-4">
-    <a href="#top" class="font-display font-bold text-2xl tracking-tighter text-on-surface" data-cursor-hover>
-      8888 <span class="acid">/</span> Producciones
+  <div class="flex justify-between items-center px-6 md:px-[var(--spacing-margin)] py-4">
+    <a
+      href="#top"
+      class="font-display font-bold text-xl md:text-2xl tracking-tighter text-on-surface"
+      data-cursor-hover
+    >
+      8888 <span class="acid">/</span> <span class="hidden sm:inline">Producciones</span>
     </a>
     <nav class="hidden md:flex gap-6 text-mono-label text-[var(--color-on-surface-variant)]">
       {links.map((l) => (
@@ -32,11 +36,62 @@ const links = [
     </a>
     <button
       id="menu-btn"
-      class="md:hidden text-mono-label acid"
-      aria-label="Menu"
+      class="md:hidden text-mono-label acid border border-acid px-3 py-1.5"
+      aria-label="Abrir menú"
+      aria-expanded="false"
       data-cursor-hover
     >
-      MENU
+      <span data-menu-label>MENU</span>
     </button>
   </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden fixed inset-0 top-[57px] bg-[var(--color-bg)] z-40 hidden flex-col"
+  >
+    <nav class="flex-1 flex flex-col px-6 py-8 gap-1 overflow-y-auto">
+      {links.map((l, i) => (
+        <a
+          href={l.href}
+          class="font-editorial text-5xl uppercase border-b border-[var(--color-outline-variant)] py-4 hover:acid transition-colors flex justify-between items-center"
+          data-mobile-link
+        >
+          {l.label}
+          <span class="text-mono-label acid">0{i + 1}</span>
+        </a>
+      ))}
+      <a
+        href="#contacto"
+        class="mt-8 bg-acid text-black px-5 py-4 font-display font-bold text-xl uppercase text-center"
+        data-mobile-link
+      >
+        Trabajemos →
+      </a>
+    </nav>
+  </div>
 </header>
+
+<script>
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const label = btn?.querySelector("[data-menu-label]");
+
+  function setOpen(open: boolean) {
+    if (!menu || !btn) return;
+    menu.classList.toggle("hidden", !open);
+    menu.classList.toggle("flex", open);
+    btn.setAttribute("aria-expanded", String(open));
+    if (label) label.textContent = open ? "CERRAR" : "MENU";
+    document.documentElement.style.overflow = open ? "hidden" : "";
+  }
+
+  btn?.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    setOpen(!open);
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-mobile-link]").forEach((a) => {
+    a.addEventListener("click", () => setOpen(false));
+  });
+</script>
