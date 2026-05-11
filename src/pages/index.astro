@@ -206,7 +206,7 @@ const description = "Estamos construyendo algo grande. Volvé pronto.";
         background: var(--bg);
         color: var(--ink);
         min-height: 100dvh;
-        overflow: hidden;
+        overflow-x: hidden;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -340,6 +340,7 @@ const description = "Estamos construyendo algo grande. Volvé pronto.";
         filter: drop-shadow(0 0 24px rgba(182, 247, 0, 0.35));
         animation: floaty 6s ease-in-out infinite;
       }
+      .logo-mark svg { max-width: 100%; height: auto; }
       @keyframes floaty {
         0%, 100% { transform: translateY(0); }
         50%      { transform: translateY(-6px); }
@@ -396,12 +397,16 @@ const description = "Estamos construyendo algo grande. Volvé pronto.";
         position: relative;
         font-family: var(--font-display, "Space Grotesk", sans-serif);
         font-weight: 700;
-        font-size: clamp(36px, 7vw, 96px);
+        font-size: clamp(30px, 7vw, 96px);
         line-height: 0.95;
         letter-spacing: -0.02em;
         text-transform: uppercase;
         opacity: 0;
         animation: fadeUp 1s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        max-width: 100%;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        hyphens: auto;
       }
       .glitch-base { position: relative; z-index: 2; }
       .glitch-layer {
@@ -572,7 +577,28 @@ const description = "Estamos construyendo algo grande. Volvé pronto.";
 
       @media (max-width: 640px) {
         .wave-left, .wave-right { display: none; }
-        .stage { gap: 22px; }
+        .stage {
+          gap: 20px;
+          padding: 24px 18px;
+        }
+        .top-bar, .bottom-bar {
+          padding: 14px 18px;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .top-bar .text-mono-label,
+        .bottom-bar .text-mono-label { font-size: 11px; }
+        .rings { width: min(85vw, 360px); }
+        .kicker { font-size: 11px; letter-spacing: 0.25em; }
+        .lede { font-size: 17px; padding: 0 6px; }
+        .btn { padding: 14px 22px; font-size: 13px; }
+        .blob { width: 360px; height: 360px; opacity: 0.7; }
+        .marquee-wrap { padding: 12px 0; }
+        .marquee-track { font-size: 13px; letter-spacing: 0.2em; gap: 28px; }
+      }
+      @media (max-width: 380px) {
+        .glitch { font-size: 28px; }
+        .rings { width: 80vw; }
       }
 
       @media (prefers-reduced-motion: reduce) {
