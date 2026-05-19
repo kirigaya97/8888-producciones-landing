@@ -5,7 +5,7 @@
   class="relative px-[var(--spacing-margin)] py-32 bg-[var(--color-surface-low)] border-b border-[var(--color-outline-variant)] overflow-hidden"
 >
   <div class="mb-16 md:mb-20" data-reveal>
-    <div class="text-mono-label text-[var(--color-outline)] mb-6">05 / Contacto</div>
+    <div class="text-mono-label text-[var(--color-outline)] mb-6">04 / Contacto</div>
     <h2 class="text-headline-md md:text-headline-lg uppercase leading-[0.95] max-w-[14ch]">
       ¿Tenés un proyecto?
       <span class="acid block mt-1 md:mt-2">Trabajemos.</span>
@@ -14,19 +14,25 @@
 
   <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
     <div class="md:col-span-7">
-      <form class="space-y-px bg-[var(--color-outline-variant)] border border-[var(--color-outline-variant)]" data-reveal>
+      <form id="contact-form" class="space-y-px bg-[var(--color-outline-variant)] border border-[var(--color-outline-variant)]" data-reveal novalidate>
         <div class="bg-[var(--color-bg)] p-6">
-          <label class="text-mono-label text-[var(--color-outline)] block mb-2">NOMBRE</label>
+          <label for="cf-nombre" class="text-mono-label text-[var(--color-outline)] block mb-2">NOMBRE</label>
           <input
+            id="cf-nombre"
+            name="nombre"
             type="text"
+            required
             placeholder="Tu nombre"
             class="w-full bg-transparent text-2xl font-display outline-none focus:acid placeholder:text-[var(--color-outline)]"
           />
         </div>
         <div class="bg-[var(--color-bg)] p-6">
-          <label class="text-mono-label text-[var(--color-outline)] block mb-2">EMAIL</label>
+          <label for="cf-email" class="text-mono-label text-[var(--color-outline)] block mb-2">EMAIL</label>
           <input
+            id="cf-email"
+            name="email"
             type="email"
+            required
             placeholder="hola@dominio.com"
             class="w-full bg-transparent text-2xl font-display outline-none focus:acid placeholder:text-[var(--color-outline)]"
           />
@@ -34,9 +40,9 @@
         <div class="bg-[var(--color-bg)] p-6">
           <label class="text-mono-label text-[var(--color-outline)] block mb-3">TIPO DE PROYECTO</label>
           <div class="flex flex-wrap gap-2">
-            {["Música", "Videoclip", "Branded", "Estudio", "Live", "Otro"].map((t) => (
+            {["Evento", "Show en vivo", "Artista", "Audiovisual", "Estudio", "Otro"].map((t) => (
               <label class="cursor-pointer" data-cursor-hover>
-                <input type="checkbox" class="peer sr-only" />
+                <input type="checkbox" name="tipos" value={t} class="peer sr-only" />
                 <span class="text-mono-label border border-[var(--color-outline-variant)] px-3 py-1.5 inline-block peer-checked:bg-acid peer-checked:text-black peer-checked:border-acid hover:border-acid transition-colors">
                   {t}
                 </span>
@@ -45,29 +51,45 @@
           </div>
         </div>
         <div class="bg-[var(--color-bg)] p-6">
-          <label class="text-mono-label text-[var(--color-outline)] block mb-2">CONTANOS</label>
+          <label for="cf-mensaje" class="text-mono-label text-[var(--color-outline)] block mb-2">CONTANOS</label>
           <textarea
+            id="cf-mensaje"
+            name="mensaje"
+            required
             rows="4"
             placeholder="¿Qué tenés en mente?"
             class="w-full bg-transparent text-lg font-body outline-none placeholder:text-[var(--color-outline)] resize-none"
           ></textarea>
         </div>
+        {/* Honeypot anti-spam — oculto para humanos; los bots lo completan */}
+        <div class="hidden" aria-hidden="true">
+          <label>
+            No completar este campo
+            <input type="text" name="company" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
         <button
           type="submit"
-          class="w-full bg-acid text-black p-6 font-display font-bold text-3xl uppercase tracking-tight hover:bg-[var(--color-acid-dim)] transition-colors text-left flex justify-between items-center"
+          class="w-full bg-acid text-black p-6 font-display font-bold text-3xl uppercase tracking-tight hover:bg-[var(--color-acid-dim)] transition-colors text-left flex justify-between items-center disabled:opacity-60 disabled:cursor-not-allowed"
           data-cursor-hover
         >
-          ENVIAR MENSAJE
+          <span data-submit-label>ENVIAR MENSAJE</span>
           <span class="material-symbols-outlined text-4xl">arrow_outward</span>
         </button>
       </form>
+      <p
+        id="form-status"
+        role="status"
+        aria-live="polite"
+        class="text-mono-label mt-4 hidden"
+      ></p>
     </div>
 
     <div class="md:col-span-4 md:col-start-9 space-y-12" data-reveal>
       <div>
         <div class="text-mono-label text-[var(--color-outline)] mb-2">DIRECTO</div>
-        <a href="mailto:hola@8888.producciones" class="font-editorial text-3xl md:text-4xl block hover:acid transition-colors" data-cursor-hover>
-          hola@8888.producciones
+        <a href="mailto:hola@8888producciones.com" class="font-editorial text-3xl md:text-4xl block hover:acid transition-colors" data-cursor-hover>
+          hola@8888producciones.com
         </a>
       </div>
       <div>
@@ -107,3 +129,49 @@
     8888
   </div>
 </section>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("form-status");
+  const label = form?.querySelector<HTMLElement>("[data-submit-label]");
+  const submitBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  if (form && status && label && submitBtn) {
+    const original = label.textContent ?? "ENVIAR MENSAJE";
+
+    const setStatus = (message: string, kind: "ok" | "error") => {
+      status.textContent = message;
+      status.classList.remove("hidden");
+      status.style.color = kind === "ok" ? "var(--color-acid)" : "#ff6b6b";
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      status.classList.add("hidden");
+      submitBtn.disabled = true;
+      label.textContent = "ENVIANDO…";
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => ({}) as { ok?: boolean; error?: string });
+
+        if (res.ok && data.ok) {
+          label.textContent = "MENSAJE ENVIADO ✓";
+          setStatus("¡Gracias! Te respondemos a la brevedad.", "ok");
+          form.reset();
+        } else {
+          submitBtn.disabled = false;
+          label.textContent = original;
+          setStatus(data.error ?? "No pudimos enviar el mensaje. Probá de nuevo.", "error");
+        }
+      } catch {
+        submitBtn.disabled = false;
+        label.textContent = original;
+        setStatus("Error de conexión. Revisá tu internet e intentá de nuevo.", "error");
+      }
+    });
+  }
+</script>

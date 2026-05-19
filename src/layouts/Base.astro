@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Loader from "../components/Loader.astro";
 import GrainOverlay from "../components/GrainOverlay.astro";
 import Cursor from "../components/Cursor.astro";
+import WhatsAppFab from "../components/WhatsAppFab.astro";
 
 interface Props {
   title?: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const {
   title = "8888 Producciones — Producimos para vos",
-  description = "Producimos para vos. Productora audiovisual, estudio de grabación y management de artistas.",
+  description = "Productora de eventos y management de artistas en Buenos Aires. Producimos shows en vivo y el contenido que los rodea.",
 } = Astro.props;
 
 const siteName = "8888 Producciones";
@@ -57,6 +58,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toStri
     <GrainOverlay />
     <Cursor />
     <slot />
+    <WhatsAppFab />
 
     <script>
       import Lenis from "lenis";

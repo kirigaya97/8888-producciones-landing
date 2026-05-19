@@ -1,0 +1,103 @@
+---
+// Botón flotante de WhatsApp — fijo, inferior derecha.
+const phone = "5491125450808";
+const text = "Hola 8888 👋 Quiero hablar sobre un evento.";
+const href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="wa-fab"
+  aria-label="Escribinos por WhatsApp"
+  data-cursor-hover
+>
+  <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" focusable="false">
+    <path d="M16.004 0h-.008C7.174 0 .002 7.174.002 16c0 3.5 1.128 6.745 3.046 9.378L1.05 31.327l6.16-1.97A15.9 15.9 0 0 0 16.004 32C24.83 32 32 24.826 32 16S24.83 0 16.004 0Zm9.31 22.598c-.386 1.09-1.918 1.994-3.14 2.258-.836.178-1.928.32-5.604-1.204-4.7-1.948-7.726-6.724-7.962-7.034-.226-.31-1.9-2.53-1.9-4.826 0-2.296 1.168-3.424 1.638-3.904.386-.394.99-.574 1.57-.574.188 0 .356.01.508.018.45.02.676.046.972.752.368.886 1.264 3.082 1.372 3.31.11.228.22.538.066.848-.144.32-.27.456-.498.722-.228.266-.444.47-.672.756-.208.248-.444.514-.18.97.264.446 1.174 1.93 2.512 3.124 1.728 1.54 3.142 2.014 3.65 2.226.378.156.828.12 1.104-.18.35-.386.78-1.024 1.218-1.652.31-.448.704-.504 1.116-.35.42.144 2.65 1.25 3.106 1.476.456.228.756.34.87.532.112.192.112 1.108-.274 2.198Z"/>
+  </svg>
+  <span class="wa-fab__label">WhatsApp</span>
+</a>
+
+<style>
+  /* Curva expo-out compartida con el resto del sitio (Hero, reveals). */
+  .wa-fab {
+    --wa-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    position: fixed;
+    right: clamp(16px, 4vw, 32px);
+    bottom: clamp(16px, 4vw, 32px);
+    z-index: 9990;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 14px;
+    background: var(--color-acid);
+    color: #000;
+    border: 1px solid #000;
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.65);
+    transition:
+      transform 0.75s var(--wa-ease),
+      box-shadow 0.75s var(--wa-ease),
+      gap 0.75s var(--wa-ease),
+      padding 0.75s var(--wa-ease);
+  }
+  .wa-fab svg {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    transition: transform 0.75s var(--wa-ease);
+  }
+  .wa-fab__label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-8px);
+    overflow: hidden;
+    white-space: nowrap;
+    /* Estado de salida (al dejar el hover): el texto se va primero, luego cierra el espacio. */
+    transition:
+      max-width 0.85s var(--wa-ease),
+      opacity 0.35s ease,
+      transform 0.85s var(--wa-ease);
+  }
+
+  .wa-fab:hover,
+  .wa-fab:focus-visible {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.85);
+    gap: 12px;
+  }
+  .wa-fab:hover svg,
+  .wa-fab:focus-visible svg {
+    transform: rotate(-8deg) scale(1.06);
+  }
+  .wa-fab:hover .wa-fab__label,
+  .wa-fab:focus-visible .wa-fab__label {
+    max-width: 160px;
+    opacity: 1;
+    transform: translateX(0);
+    /* Estado de entrada: abre el espacio y, con un leve retardo, aparece el texto. */
+    transition:
+      max-width 0.85s var(--wa-ease),
+      opacity 0.55s ease 0.25s,
+      transform 0.85s var(--wa-ease) 0.12s;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .wa-fab__label {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wa-fab,
+    .wa-fab svg,
+    .wa-fab__label {
+      transition: none;
+    }
+  }
+</style>

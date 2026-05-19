@@ -28,7 +28,7 @@
   <!-- Status -->
   <div class="mt-8 text-mono-label text-[var(--color-on-surface-variant)] flex gap-3 items-center">
     <span class="w-2 h-2 bg-acid animate-pulse"></span>
-    <span id="loader-status">Cargando sistema audiovisual</span>
+    <span id="loader-status">Preparando el escenario</span>
   </div>
 
   <!-- Acid progress bar -->
@@ -38,7 +38,7 @@
 
   <!-- Bottom mono label -->
   <div class="absolute bottom-8 left-6 md:left-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)] hidden sm:block">
-    8888 Producciones — Multimodal Brutalism
+    8888 Producciones — Eventos & Artistas
   </div>
   <div class="absolute bottom-8 right-6 md:right-[var(--spacing-margin)] text-mono-label text-[var(--color-outline)]">
     <span id="loader-pct">0</span>%
@@ -67,10 +67,10 @@
     const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
     const statuses = [
-      "Cargando sistema audiovisual",
-      "Sintonizando frecuencias",
-      "Inicializando estudio",
-      "Listo para grabar",
+      "Preparando el escenario",
+      "Probando sonido",
+      "Coordinando proveedores",
+      "Listo para arrancar",
     ];
 
     function tick(now: number) {
