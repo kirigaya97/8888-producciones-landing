@@ -57,10 +57,16 @@ const words = ["EL", "SHOW", "NO", "SE", "IMPROVISA"];
 </section>
 
 <style>
+  /* Override del line-height ajustado del headline-lg para que las letras
+     (acentos, italic editorial) no se recorten arriba/abajo dentro del overflow:hidden. */
+  h1.text-headline-lg {
+    line-height: 1;
+  }
   .hero-line {
     display: block;
     overflow: hidden;
-    padding-bottom: 0.04em;
+    padding-top: 0.08em;
+    padding-bottom: 0.14em;
   }
   .hero-word {
     display: inline-block;

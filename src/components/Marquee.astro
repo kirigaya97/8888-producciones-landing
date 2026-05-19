@@ -27,8 +27,8 @@ const repeated = [...items, ...items, ...items, ...items];
   <div class="marquee-track">
     {repeated.map((item) => (
       <span class="px-8 font-editorial text-[clamp(40px,7vw,96px)] leading-none whitespace-nowrap uppercase tracking-tight flex items-center gap-8">
-        {item}
-        <span class="text-2xl">✱</span>
+        <span class="leading-none inline-block">{item}</span>
+        <span class="text-[0.4em] leading-none inline-block -translate-y-[0.06em]">✱</span>
       </span>
     ))}
   </div>
