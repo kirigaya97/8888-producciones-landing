@@ -25,12 +25,12 @@ const etapas = [
 
 <section
   id="proceso"
-  class="px-[var(--spacing-margin)] py-32 border-b border-[var(--color-outline-variant)] bg-[var(--color-surface-low)]"
+  class="px-[var(--spacing-margin)] py-20 md:py-32 border-b border-[var(--color-outline-variant)] bg-[var(--color-surface-low)]"
 >
-  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-10 md:mb-16">
     <div class="md:col-span-3 text-mono-label text-[var(--color-outline)]">02 / Proceso</div>
     <div class="md:col-span-9" data-reveal>
-      <h2 class="text-headline-md uppercase">
+      <h2 class="text-3xl md:text-headline-md uppercase">
         De la idea <span class="acid italic font-editorial">al aplauso</span>.
       </h2>
       <p class="text-mono-label text-[var(--color-outline)] mt-4">Cuatro etapas. Cero sorpresas.</p>
@@ -40,14 +40,14 @@ const etapas = [
   <div class="border-t border-[var(--color-outline-variant)]" data-stagger>
     {etapas.map((e) => (
       <article
-        class="group grid grid-cols-1 md:grid-cols-12 gap-gutter items-start border-b border-[var(--color-outline-variant)] py-10 md:py-12"
+        class="group grid grid-cols-1 md:grid-cols-12 gap-gutter items-start border-b border-[var(--color-outline-variant)] py-8 md:py-12"
         data-stagger-item
         data-cursor-hover
       >
-        <div class="md:col-span-3 font-editorial acid text-6xl md:text-7xl leading-none mb-4 md:mb-0">
+        <div class="md:col-span-3 font-editorial acid text-5xl md:text-7xl leading-none mb-3 md:mb-0">
           {e.n}
         </div>
-        <h3 class="md:col-span-4 text-headline-md uppercase group-hover:acid transition-colors mb-3 md:mb-0">
+        <h3 class="md:col-span-4 text-2xl md:text-headline-md uppercase group-hover:acid transition-colors mb-2 md:mb-0">
           {e.title}
         </h3>
         <p class="md:col-span-5 text-body-reg text-[var(--color-on-surface-variant)] max-w-md">

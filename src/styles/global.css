@@ -88,7 +88,8 @@
 
   .text-headline-lg {
     font-family: var(--font-editorial);
-    font-size: clamp(64px, 11vw, 160px);
+    /* mínimo bajado de 64px → 48px para evitar desborde horizontal en 320–360px */
+    font-size: clamp(48px, 11vw, 160px);
     line-height: 0.88;
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -96,7 +97,8 @@
 
   .text-headline-md {
     font-family: var(--font-display);
-    font-size: clamp(32px, 4.5vw, 56px);
+    /* mínimo bajado de 32px → 26px; a 320px 32px + uppercase puede desbordar en grid col-7 */
+    font-size: clamp(26px, 4.5vw, 56px);
     line-height: 1.05;
     font-weight: 700;
     letter-spacing: -0.01em;

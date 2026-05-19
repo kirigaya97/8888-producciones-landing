@@ -50,11 +50,11 @@ const links = [
     id="mobile-menu"
     class="md:hidden fixed inset-0 top-[57px] bg-[var(--color-bg)] z-40 hidden flex-col"
   >
-    <nav class="flex-1 flex flex-col px-6 py-8 gap-1 overflow-y-auto">
+    <nav class="flex-1 flex flex-col px-6 py-4 md:py-8 gap-1 overflow-y-auto">
       {links.map((l, i) => (
         <a
           href={l.href}
-          class="font-editorial text-5xl uppercase border-b border-[var(--color-outline-variant)] py-4 hover:acid transition-colors flex justify-between items-center"
+          class="font-editorial text-3xl md:text-5xl uppercase border-b border-[var(--color-outline-variant)] py-3 md:py-4 hover:acid transition-colors flex justify-between items-center"
           data-mobile-link
         >
           {l.label}
@@ -63,7 +63,7 @@ const links = [
       ))}
       <a
         href="#contacto"
-        class="mt-8 bg-acid text-black px-5 py-4 font-display font-bold text-xl uppercase text-center"
+        class="mt-4 md:mt-8 bg-acid text-black px-5 py-3 md:py-4 font-display font-bold text-base md:text-xl uppercase text-center"
         data-mobile-link
       >
         Trabajemos →
